@@ -1,0 +1,28 @@
+const { Schema, model, Types: { ObjectId } } = require('mongoose');
+const Reaction = require('./Reaction');
+const { comments } = require('../common/errorMessages.json');
+
+const schema = new Schema({
+    content: { type: String, required: true, minlength: [4, comments.content.length] },
+    imageUrl: { type: String, default: '' },
+    authorId: { type: String, required: true },
+    receiverId: { type: String, required: true },
+    reactions: { type: [ ObjectId ], default: [], ref: Reaction },
+    createdOn: { type: Date, default: Date.now },
+});
+
+schema.methods = {
+    view: function() {
+        var obj = this.toObject();
+    
+        obj.id = obj._id;
+        delete obj._id, obj.__v;
+    
+        return obj;
+    },
+    isLiked: function () {
+        return this.likes > this.dislikes
+    },
+}
+
+module.exports = model('Comment', schema);

@@ -1,0 +1,35 @@
+{
+    "posts": {
+        "title": {
+            "length": "Title should be more than 4 characters! Not {VALUE}"
+        },
+        "content": {
+            "length": "Content should be more than 4 characters! Not {VALUE}"
+        },
+        "author": {
+            "name": {
+                "length": "Author name should be more than 4 characters!"
+            }
+        },
+        "receiver": {
+            "name": {
+                "length": "Receiver name should be more than 4 characters!"
+            }
+        }
+    },
+    "comments": {
+        "content": {
+            "length": "Content should be more than 4 characters! Not {VALUE}"
+        },
+        "author": {
+            "name": {
+                "length": "Author name should be more than 4 characters!"
+            }
+        },
+        "receiver": {
+            "name": {
+                "length": "Receiver name should be more than 4 characters!"
+            }
+        }
+    }
+}
