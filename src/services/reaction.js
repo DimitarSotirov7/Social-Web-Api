@@ -18,6 +18,7 @@ async function change(reaction, model) {
     }
 
     reaction.emoji = model.emoji;
+    reaction.modifiedOn = Date.now();
     reaction.save();
     return;
 }

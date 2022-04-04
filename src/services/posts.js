@@ -39,7 +39,6 @@ async function reaction(model) {
             post.reactions.remove(result._id); 
             return post.save();
         }
-
         return result;
     } else {
         reaction = await reactionService.create(model)
@@ -48,22 +47,6 @@ async function reaction(model) {
         return post.save();
     }
     
-}
-
-function changeReaction(reaction, model) {
-    const modelKey = Object.entries(model).filter(([ k, v ]) => v === true)[0][0];
-    if (reaction[modelKey]) {
-        throw new Error('There is already a reaction from this user to this post');
-    }
-
-    reaction.like = reaction.like ? undefined : reaction.like
-    reaction.dislike = reaction.dislike ? undefined : reaction.dislike
-    reaction.laugh = reaction.laugh ? undefined : reaction.laugh
-    reaction.heart = reaction.heart ? undefined : reaction.heart
-    reaction.angry = reaction.angry ? undefined : reaction.angry
-    
-    reaction[modelKey] = true;
-    return reaction;
 }
 
 module.exports = {

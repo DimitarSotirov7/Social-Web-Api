@@ -1,15 +1,11 @@
 const { Schema, model } = require('mongoose');
 
 const schema = new Schema({
-    // like: { type: Boolean },
-    // dislike: { type: Boolean },
-    // heart: { type: Boolean },
-    // laugh: { type: Boolean },
-    // angry: { type: Boolean },
     authorId: { type: String, required: true },
     postId: { type: String },
     commentId: { type: String },
     createdOn: { type: Date, default: Date.now },
+    modifiedOn: { type: Date, default: undefined },
     emoji: { type: String, required: true }, //like, dislike, heart, laugh, angry
 });
 
