@@ -1,6 +1,6 @@
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
-const Reaction = require('../models/Reaction');
+const reactionService = require('../services/reaction');
 
 async function create(post) {
     return await Post.create(post);
@@ -31,12 +31,18 @@ async function getAllByAuthor(authorId) {
 }
 
 async function reaction(model) {
-    var reaction = await Reaction.findOne({ postId: model.postId, authorId: model.authorId });
+    var reaction = await reactionService.getByPostAndAuthor(model.postId, model.authorId);
+    const post = await Post.findById(model.postId);
     if (reaction) {
-        reaction = changeReaction(reaction, model);
-        return reaction.save();
+        const result = await reactionService.change(reaction, model);
+        if (result) {
+            post.reactions.remove(result._id); 
+            return post.save();
+        }
+
+        return result;
     } else {
-        reaction = await Reaction.create(model)
+        reaction = await reactionService.create(model)
         const post = await Post.findById(model.postId);
         post.reactions.push(reaction._id);
         return post.save();
