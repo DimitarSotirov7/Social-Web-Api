@@ -14,7 +14,9 @@ async function update(commentId, model) {
 
 async function remove(commentId) {
     const comment = await Comment.findByIdAndRemove(commentId);
-    const post = await Post.findById(model.postId);
+    // const post = await Post.findById(model.postId);
+    const posts = await Post.find();
+    const post = posts.filter(p => p.comments.filter(c => c._id === comment._id))[0];
     post.comments.remove(comment._id); 
     return post.save();
 }
