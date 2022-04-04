@@ -13,7 +13,6 @@ function getById(req, res, next) {
 //POST
 function create(req, res, next) {
     const data = req.body;
-    data.createdOn = new Date();
     service.create(data)
         .then(res => res.view())
         .then((data) => {
@@ -21,7 +20,7 @@ function create(req, res, next) {
         })
         .catch(next);
 }
-//POST
+//PATCH
 function update(req, res, next) {
     const { id } = req.params;
     const data = req.body;
@@ -32,7 +31,7 @@ function update(req, res, next) {
         })
         .catch(next);
 }
-//GET
+//DELETE
 function remove(req, res, next) {
     const { id } = req.params;
     service.remove(id)
@@ -42,43 +41,10 @@ function remove(req, res, next) {
         })
         .catch(next);
 }
-//GET
-function getAllByPostId(req, res, next) {
-    const { id } = req.params;
-    service.getAllByPostId(id)
-        .then(res => res.map(r => r.view()))
-        .then(data => {
-            return res.json(data);
-        })
-        .catch(next);
-}
-//GET
-function like(req, res, next) {
-    const { id } = req.params;
-    service.like(id)
-        .then(res => res.map(r => r.view()))
-        .then(data => {
-            return res.json(data);
-        })
-        .catch(next);
-}
-//GET
-function dislike(req, res, next) {
-    const { id } = req.params;
-    service.dislike(id)
-        .then(res => res.map(r => r.view()))
-        .then(data => {
-            return res.json(data);
-        })
-        .catch(next);
-}
 
 module.exports = {
     create,
     update,
     remove,
     getById,
-    getAllByPostId,
-    like,
-    dislike,
 }

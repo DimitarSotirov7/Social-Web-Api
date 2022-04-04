@@ -6,7 +6,7 @@ const schema = new Schema({
     content: { type: String, required: true, minlength: [4, comments.content.length] },
     imageUrl: { type: String, default: '' },
     authorId: { type: String, required: true },
-    receiverId: { type: String, required: true },
+    postId: { type: String, required: true },
     reactions: { type: [ ObjectId ], default: [], ref: Reaction },
     createdOn: { type: Date, default: Date.now },
 });

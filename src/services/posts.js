@@ -42,11 +42,9 @@ async function reaction(model) {
         return result;
     } else {
         reaction = await reactionService.create(model)
-        const post = await Post.findById(model.postId);
         post.reactions.push(reaction._id);
         return post.save();
     }
-    
 }
 
 module.exports = {

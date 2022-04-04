@@ -1,41 +1,26 @@
 const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 
-async function create(comment) {
-    return await Comment.create(comment);
+async function create(model) {
+    const post = await Post.findById(model.postId);
+    const comment = await Comment.create(model)
+    post.comments.push(comment._id);
+    return post.save();
 }
 
-async function update(commentId, params) {
-    return await Comment.findByIdAndUpdate(commentId, params);
+async function update(commentId, model) {
+    return await Comment.findByIdAndUpdate(commentId, model);
 }
 
 async function remove(commentId) {
-    return await Comment.findByIdAndRemove(commentId);
+    const comment = await Comment.findByIdAndRemove(commentId);
+    const post = await Post.findById(model.postId);
+    post.comments.remove(comment._id); 
+    return post.save();
 }
 
 async function getById(commentId) {
     return Comment.findById(commentId);
-}
-
-async function getAllByPostId(postId) {
-    const post = Post.findById(postId).populate('comments');
-    if (!post.comments) {
-        return [];
-    }
-    console.log(post.comments)
-    return Comment.find({ _id: (post.comments).filter(x => x === _id)._id });
-}
-
-async function like(commentId) {
-    const comment = Comment.findById(commentId);
-    post.like++;
-    post.save();
-}
-
-async function dislike(commentId) {
-    const comment = Comment.findById(commentId);
-    post.dislike++;
-    post.save();
 }
 
 module.exports = {
@@ -43,7 +28,4 @@ module.exports = {
     update,
     remove,
     getById,
-    getAllByPostId,
-    like,
-    dislike,
 };
