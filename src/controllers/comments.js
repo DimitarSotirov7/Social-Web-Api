@@ -22,9 +22,8 @@ function create(req, res, next) {
 }
 //PATCH
 function update(req, res, next) {
-    const { id } = req.params;
     const data = req.body;
-    service.update(id, data)
+    service.update(data)
         .then(res => res.view())
         .then((data) => {
             return res.json(data) //TODO: for test purposes

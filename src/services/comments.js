@@ -8,8 +8,9 @@ async function create(model) {
     return post.save();
 }
 
-async function update(commentId, model) {
-    return await Comment.findByIdAndUpdate(commentId, model);
+async function update(model) {
+    console.log(model)
+    return await Comment.findByIdAndUpdate(model.id, model);
 }
 
 async function remove(commentId) {
