@@ -9,18 +9,36 @@ const schema = new Schema({
     imageUrl: { type: String, default: '' },
     author: { type: { id: { type: String, required: true }, name: { type: String, default: 'Anonymous' } }, required: true },
     receiverId: { type: String },
-    comments: { type: [ ObjectId ], default: [], ref: Comment },
-    reactions: { type: [ ObjectId ], default: [], ref: Reaction },
+    comments: { type: [ObjectId], default: [], ref: Comment },
+    reactions: { type: [ObjectId], default: [], ref: Reaction },
     createdOn: { type: Date, default: Date.now },
 });
 
 schema.methods = {
-    view: function() {
+    view: function () {
         var obj = this.toObject();
-    
+
         obj.id = obj._id;
+
+        obj.comments = obj.comments.map(c => {
+            c.id = c._id;
+            delete c._id, c.__v;
+            c.reactions = c.reactions.map(r => {
+                r.id = r._id;
+                delete r._id, r.__v;
+                return r;
+            });
+
+            return c;
+        });
+        obj.reactions = obj.reactions.map(r => {
+            r.id = r._id;
+            delete r._id, r.__v;
+            return r;
+        });
+
         delete obj._id, obj.__v;
-    
+
         return obj;
     },
 }
