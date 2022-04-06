@@ -28,7 +28,7 @@ async function getById(commentId) {
 }
 
 async function reaction(model) {
-    var reaction = await reactionService.getByPostAndAuthor(model.commentId, model.authorId);
+    var reaction = await reactionService.getByCommentAndAuthor(model.commentId, model.authorId);
     const comment = await Comment.findById(model.commentId);
     if (reaction) {
         const result = await reactionService.change(reaction, model);

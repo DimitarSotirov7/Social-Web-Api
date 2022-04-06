@@ -4,6 +4,10 @@ async function getByPostAndAuthor(postId, authorId) {
     return await Reaction.findOne({ postId, authorId });
 }
 
+async function getByCommentAndAuthor(commentId, authorId) {
+    return await Reaction.findOne({ commentId, authorId });
+}
+
 async function getById(reactionId) {
     return await Reaction.findById(reactionId);
 }
@@ -29,6 +33,7 @@ async function change(reaction, model) {
 
 module.exports = {
     getByPostAndAuthor,
+    getByCommentAndAuthor,
     create,
     change,
     remove,
