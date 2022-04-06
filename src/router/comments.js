@@ -7,5 +7,6 @@ router.post('/', controller.create);
 router.patch('/', controller.update);
 router.delete('/:id', controller.remove);
 router.post('/reaction', controller.reaction);
+router.get('/reaction/:id', controller.getReactions);
 
 module.exports = router

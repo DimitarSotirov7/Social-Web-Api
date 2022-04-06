@@ -50,6 +50,16 @@ function reaction(req, res, next) {
         })
         .catch(next);
 }
+//GET
+function getReactions(req, res, next) {
+    const { id } = req.params;
+    service.getReactions(id)
+        .then(res => res.view())
+        .then(data => {
+            return res.json(data);
+        })
+        .catch(next);
+}
 
 
 module.exports = {
@@ -58,4 +68,5 @@ module.exports = {
     remove,
     getById,
     reaction,
+    getReactions,
 }

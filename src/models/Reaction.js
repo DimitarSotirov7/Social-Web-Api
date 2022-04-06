@@ -13,8 +13,9 @@ schema.methods = {
     view: function() {
         var obj = this.toObject();
     
-        // obj.id = obj._id;
-        delete obj._id, obj.__v, obj.authorId, obj.postId, obj.createdOn;
+        obj.id = obj._id;
+        delete obj._id, obj.__v;
+
         return obj;
     },
 }

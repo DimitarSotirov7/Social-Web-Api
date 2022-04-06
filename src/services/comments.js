@@ -33,14 +33,21 @@ async function reaction(model) {
     if (reaction) {
         const result = await reactionService.change(reaction, model);
         if (result?.deleted) {
-            comment.reactions.remove(result._id); 
+            comment.reactions.remove(result._id);
+            comment.save();
         }
+        console.log(result.reaction)
         return result.reaction;
     } else {
         reaction = await reactionService.create(model)
         comment.reactions.push(reaction._id);
+        comment.save();
+        return reaction;
     }
-    return comment.save();
+}
+
+async function getReactions(commentId) {
+    return await Comment.findById(commentId);
 }
 
 module.exports = {
@@ -49,4 +56,5 @@ module.exports = {
     remove,
     getById,
     reaction,
+    getReactions,
 };
