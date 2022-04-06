@@ -6,12 +6,13 @@ async function create(model) {
     const post = await Post.findById(model.postId);
     const comment = await Comment.create(model)
     post.comments.push(comment._id);
-    return post.save();
+    post.save();
+    return comment.populate('reactions');
 }
 
 async function update(model) {
-    console.log(model)
-    return await Comment.findByIdAndUpdate(model.id, model);
+    const comment = await Comment.findByIdAndUpdate(model.id, model);
+    return comment.populate('reactions');
 }
 
 async function remove(commentId) {
@@ -20,7 +21,8 @@ async function remove(commentId) {
     const posts = await Post.find();
     const post = posts.filter(p => p.comments.filter(c => c._id === comment._id))[0];
     post.comments.remove(comment._id); 
-    return post.save();
+    post.save();
+    return comment.populate('reactions');
 }
 
 async function getById(commentId) {
@@ -36,7 +38,6 @@ async function reaction(model) {
             comment.reactions.remove(result._id);
             comment.save();
         }
-        console.log(result.reaction)
         return result.reaction;
     } else {
         reaction = await reactionService.create(model)
