@@ -20,9 +20,6 @@ schema.methods = {
     
         return obj;
     },
-    isLiked: function () {
-        return this.likes > this.dislikes
-    },
 }
 
 module.exports = model('Comment', schema);

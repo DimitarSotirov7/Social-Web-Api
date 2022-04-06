@@ -19,7 +19,10 @@ async function remove(postId) {
 }
 
 async function getAll() {
-    return Post.find({}).populate('comments').populate('reactions');
+    return await Post.find({}).populate({
+        path: 'comments',
+        populate: 'reactions',
+    }).populate('reactions');
 }
 
 async function getById(postId) {
@@ -27,7 +30,7 @@ async function getById(postId) {
 }
 
 async function getAllByAuthor(authorId) {
-    return Post.find({author: { id: authorId }}).populate('comments');
+    return Post.find({ author: { id: authorId } }).populate('comments');
 }
 
 async function reaction(model) {
@@ -35,16 +38,15 @@ async function reaction(model) {
     const post = await Post.findById(model.postId);
     if (reaction) {
         const result = await reactionService.change(reaction, model);
-        if (result) {
-            post.reactions.remove(result._id); 
-            return post.save();
+        if (!result) {
+            return result;
         }
-        return result;
+        post.reactions.remove(result._id);
     } else {
         reaction = await reactionService.create(model)
         post.reactions.push(reaction._id);
-        return post.save();
     }
+    return post.save();
 }
 
 module.exports = {

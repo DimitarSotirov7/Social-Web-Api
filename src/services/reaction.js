@@ -4,6 +4,10 @@ async function getByPostAndAuthor(postId, authorId) {
     return await Reaction.findOne({ postId, authorId });
 }
 
+async function getById(reactionId) {
+    return await Reaction.findById(reactionId);
+}
+
 async function create(model) {
     return await Reaction.create(model);
 }
@@ -28,4 +32,5 @@ module.exports = {
     create,
     change,
     remove,
+    getById,
 };

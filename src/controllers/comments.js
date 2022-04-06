@@ -40,10 +40,22 @@ function remove(req, res, next) {
         })
         .catch(next);
 }
+//POST
+function reaction(req, res, next) {
+    const data = req.body;
+    service.reaction(data)
+        .then(res => res.view())
+        .then((data) => {
+            return res.json(data) //TODO: for test purposes
+        })
+        .catch(next);
+}
+
 
 module.exports = {
     create,
     update,
     remove,
     getById,
+    reaction,
 }

@@ -14,13 +14,6 @@ const schema = new Schema({
     createdOn: { type: Date, default: Date.now },
 });
 
-// schema.index({ title: 1 }, {
-//     collation: {
-//         locale: 'en',
-//         strength: 1
-//     }
-// });
-
 schema.methods = {
     view: function() {
         var obj = this.toObject();
@@ -29,9 +22,6 @@ schema.methods = {
         delete obj._id, obj.__v;
     
         return obj;
-    },
-    isLiked: function () {
-        return this.likes > this.dislikes
     },
 }
 

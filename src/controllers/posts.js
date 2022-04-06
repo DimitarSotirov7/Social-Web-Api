@@ -3,10 +3,8 @@ const service = require('../services/posts');
 //GET
 function getAll(req, res, next) {
     service.getAll()
-        .then(res => res.map(p =>  p.view()))
-        .then(data => {
-            return res.json(data)
-        })
+        .then(res => res.map(p => p.view()))
+        .then(data => res.json(data))
         .catch(next);
 }
 //GET
@@ -14,9 +12,7 @@ function getById(req, res, next) {
     const { id } = req.params;
     service.getById(id)
         .then(res => res.view())
-        .then(data => {
-            return res.json(data);
-        })
+        .then(data => res.json(data))
         .catch(next);
 }
 //POST
