@@ -22,13 +22,12 @@ async function remove(reactionId) {
 
 async function change(reaction, model) {
     if (reaction.emoji === model.emoji) {
-        return await remove(reaction._id);
+        return { reaction: await remove(reaction._id), deleted: true };
     }
 
     reaction.emoji = model.emoji;
     reaction.modifiedOn = Date.now();
-    reaction.save();
-    return;
+    return { reaction: reaction.save() };
 }
 
 module.exports = {

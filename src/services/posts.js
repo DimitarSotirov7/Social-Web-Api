@@ -38,10 +38,10 @@ async function reaction(model) {
     const post = await Post.findById(model.postId);
     if (reaction) {
         const result = await reactionService.change(reaction, model);
-        if (!result) {
-            return result;
+        if (result?.deleted) {
+            post.reactions.remove(result._id); 
         }
-        post.reactions.remove(result._id);
+        return result.reaction;
     } else {
         reaction = await reactionService.create(model)
         post.reactions.push(reaction._id);

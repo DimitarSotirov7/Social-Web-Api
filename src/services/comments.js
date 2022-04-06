@@ -32,10 +32,10 @@ async function reaction(model) {
     const comment = await Comment.findById(model.commentId);
     if (reaction) {
         const result = await reactionService.change(reaction, model);
-        if (!result) {
-            return result;
+        if (result?.deleted) {
+            comment.reactions.remove(result._id); 
         }
-        comment.reactions.remove(result._id); 
+        return result.reaction;
     } else {
         reaction = await reactionService.create(model)
         comment.reactions.push(reaction._id);
