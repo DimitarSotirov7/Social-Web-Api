@@ -12,17 +12,23 @@ async function create(model) {
 
 async function update(model) {
     const comment = await Comment.findByIdAndUpdate(model.id, model);
-    return comment.populate('reactions');
+    return await Comment.findById(comment._id);
 }
 
 async function remove(commentId) {
     const comment = await Comment.findByIdAndRemove(commentId);
-    // const post = await Post.findById(model.postId);
+
     const posts = await Post.find();
     const post = posts.filter(p => p.comments.filter(c => c._id === comment._id))[0];
     post.comments.remove(comment._id); 
     post.save();
-    return comment.populate('reactions');
+
+    const reactions = await reactionService.getByCommentId(comment._id);
+    if (reactions) {
+        reactions.map(async r => await reactionService.remove(r._id));
+    }
+
+    return { id: comment._id, isDeleted: true };
 }
 
 async function getById(commentId) {

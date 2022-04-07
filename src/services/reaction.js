@@ -8,6 +8,14 @@ async function getByCommentAndAuthor(commentId, authorId) {
     return await Reaction.findOne({ commentId, authorId });
 }
 
+async function getByCommentId(commentId) {
+    return await Reaction.find({ commentId });
+}
+
+async function getByPostId(postId) {
+    return await Reaction.find({ postId });
+}
+
 async function getById(reactionId) {
     return await Reaction.findById(reactionId);
 }
@@ -39,4 +47,6 @@ module.exports = {
     change,
     remove,
     getById,
+    getByCommentId,
+    getByPostId,
 };
