@@ -12,7 +12,7 @@ async function create(model) {
 
 async function update(model) {
     const comment = await Comment.findByIdAndUpdate(model.id, model);
-    return await Comment.findById(comment._id);
+    return await Comment.findById(comment._id).populate('reactions');
 }
 
 async function remove(commentId) {
