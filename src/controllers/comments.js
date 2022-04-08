@@ -35,7 +35,12 @@ function remove(req, res, next) {
 function reaction(req, res, next) {
     const data = req.body;
     service.reaction(data)
-        .then(res => res.view())
+        .then(res => {
+            if (res?._id) {
+                return res.view();
+            }
+            return res;
+        })
         .then((data) => res.json(data))
         .catch(next);
 }

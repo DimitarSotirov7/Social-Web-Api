@@ -39,12 +39,7 @@ async function reaction(model) {
     var reaction = await reactionService.getByCommentAndAuthor(model.commentId, model.authorId);
     const comment = await Comment.findById(model.commentId);
     if (reaction) {
-        const result = await reactionService.change(reaction, model);
-        if (result?.deleted) {
-            comment.reactions.remove(result._id);
-            comment.save();
-        }
-        return result.reaction;
+        return await reactionService.change(reaction, model);
     } else {
         reaction = await reactionService.create(model)
         comment.reactions.push(reaction._id);

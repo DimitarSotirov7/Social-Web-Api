@@ -50,9 +50,7 @@ function remove(req, res, next) {
 function reaction(req, res, next) {
     const data = req.body;
     service.reaction(data)
-        .then(data => {
-            return res.json(data);
-        })
+        .then(data => res.json(data))
         .catch(next);
 }
 

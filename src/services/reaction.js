@@ -1,5 +1,8 @@
 const Reaction = require('../models/Reaction');
 
+const Comment = require('../models/Comment');
+const Post = require('../models/Post');
+
 async function getByPostAndAuthor(postId, authorId) {
     return await Reaction.findOne({ postId, authorId });
 }
@@ -25,19 +28,30 @@ async function create(model) {
 }
 
 async function remove(reactionId) {
-    return await Reaction.findByIdAndRemove(reactionId);
+    const reaction = await Reaction.findByIdAndRemove(reactionId);
+
+    const post = (await Post.find())
+        .filter(p => p.reactions.filter(c => c._id === reaction._id))[0];
+    post?.reactions.remove(reaction._id); 
+    post.save();
+
+    const comment = (await Comment.find())
+        .filter(p => p.reactions.filter(c => c._id === reaction._id))[0];
+    comment?.reactions.remove(reaction._id); 
+    comment.save();
+
+    return { id: reaction._id, emoji: reaction.emoji, isDeleted: true };
 }
 
 async function change(reaction, model) {
     if (reaction.emoji === model.emoji) {
-        await remove(reaction._id);
-        return { reaction, deleted: true };
+        return await remove(reaction._id);
     }
 
     reaction.emoji = model.emoji;
     reaction.modifiedOn = Date.now();
     reaction.save();
-    return { reaction };
+    return reaction;
 }
 
 module.exports = {
