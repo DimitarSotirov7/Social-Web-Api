@@ -3,7 +3,7 @@ const service = require('../services/posts');
 //GET
 function getAll(req, res, next) {
     service.getAll()
-        .then(res => res.map(p => p.view()))
+        .then(res => res.map(p => p.viewNested()))
         .then(data => res.json(data))
         .catch(next);
 }
@@ -21,9 +21,7 @@ function create(req, res, next) {
     data.createdOn = new Date();
     service.create(data)
         .then(res => res.view())
-        .then((data) => {
-            return res.json(data) //TODO: for test purposes
-        })
+        .then((data) => res.json(data))
         .catch(next);
 }
 //PATCH
@@ -31,9 +29,7 @@ function update(req, res, next) {
     const data = req.body;
     service.update(data)
         .then(res => res.view())
-        .then((data) => {
-            return res.json(data) //TODO: for test purposes
-        })
+        .then((data) => res.json(data))
         .catch(next);
 }
 //DELETE

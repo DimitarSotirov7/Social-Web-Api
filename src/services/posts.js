@@ -7,7 +7,11 @@ async function create(post) {
 }
 
 async function update(params) {
-    return await Post.findByIdAndUpdate(params.id, params);
+    await Post.findByIdAndUpdate(params.id, params);
+    return await Post.findById(params.id).populate({
+        path: 'comments',
+        populate: 'reactions',
+    }).populate('reactions');
 }
 
 async function remove(postId) {
@@ -26,7 +30,7 @@ async function getAll() {
 }
 
 async function getById(postId) {
-    return Post.findById(postId).populate('comments');
+    return Post.findById(postId).populate('comments').populate('reactions');
 }
 
 async function getAllByAuthor(authorId) {

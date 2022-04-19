@@ -15,11 +15,10 @@ const schema = new Schema({
 });
 
 schema.methods = {
-    view: function () {
+    viewNested: function () {
         var obj = this.toObject();
 
         obj.id = obj._id;
-
         obj.comments = obj.comments.map(c => {
             c.id = c._id;
             delete c._id, c.__v;
@@ -31,12 +30,21 @@ schema.methods = {
 
             return c;
         });
+
         obj.reactions = obj.reactions.map(r => {
             r.id = r._id;
             delete r._id, r.__v;
             return r;
         });
 
+        delete obj._id, obj.__v;
+
+        return obj;
+    },
+    view: function () {
+        var obj = this.toObject();
+
+        obj.id = obj._id;
         delete obj._id, obj.__v;
 
         return obj;
