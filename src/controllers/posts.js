@@ -36,10 +36,7 @@ function update(req, res, next) {
 function remove(req, res, next) {
     const { id } = req.params;
     service.remove(id)
-        .then(res => res.view())
-        .then((data) => {
-            return res.json(data) //TODO: for test purposes
-        })
+        .then((data) => res.json(data))
         .catch(next);
 }
 //POST

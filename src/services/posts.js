@@ -19,7 +19,11 @@ async function remove(postId) {
     post.comments?.foreach(cId => {
         Comment.findByIdAndRemove(cId);
     });
-    return await Post.findByIdAndRemove(postId);
+    post.reactions?.foreach(rId => {
+        reactionService.remove(rId);
+    });
+    const deletedPost = await Post.findByIdAndRemove(postId);
+    return deletedPost._id;
 }
 
 async function getAll() {
