@@ -28,7 +28,7 @@ async function remove(commentId) {
         reactions.map(async r => await reactionService.remove(r._id));
     }
 
-    return { id: comment._id, content: comment.content, isDeleted: true };
+    return comment._id;
 }
 
 async function getById(commentId) {
