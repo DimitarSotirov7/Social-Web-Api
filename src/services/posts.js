@@ -49,8 +49,9 @@ async function reaction(model) {
     } else {
         reaction = await reactionService.create(model)
         post.reactions.push(reaction._id);
+        post.save();
     }
-    return post.save();
+    return reaction;
 }
 
 module.exports = {
