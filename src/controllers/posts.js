@@ -43,7 +43,12 @@ function remove(req, res, next) {
 function reaction(req, res, next) {
     const data = req.body;
     service.reaction(data)
-        .then(res => res.view())
+        .then(res => {
+            if (typeof res !== 'string') {
+                return res.view();
+            }
+            return res;
+        })
         .then(data => res.json(data))
         .catch(next);
 }

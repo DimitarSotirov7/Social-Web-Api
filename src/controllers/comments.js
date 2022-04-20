@@ -36,7 +36,7 @@ function reaction(req, res, next) {
     const data = req.body;
     service.reaction(data)
         .then(res => {
-            if (res?._id) {
+            if (typeof res !== 'string') {
                 return res.view();
             }
             return res;

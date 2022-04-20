@@ -38,9 +38,8 @@ async function remove(reactionId) {
     const comment = (await Comment.find())
         .filter(p => p.reactions.filter(c => c._id === reaction._id))[0];
     comment?.reactions.remove(reaction._id); 
-    comment.save();
 
-    return { id: reaction._id, emoji: reaction.emoji, isDeleted: true };
+    return reactionId.toString();
 }
 
 async function change(reaction, model) {
