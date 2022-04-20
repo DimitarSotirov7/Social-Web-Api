@@ -12,7 +12,7 @@ function getById(req, res, next) {
 function create(req, res, next) {
     const data = req.body;
     service.create(data)
-        .then(res => res.view())
+        .then(res => res.viewNested())
         .then((data) => res.json(data))
         .catch(next);
 }
@@ -20,7 +20,7 @@ function create(req, res, next) {
 function update(req, res, next) {
     const data = req.body;
     service.update(data)
-        .then(res => res.view())
+        .then(res => res.viewNested())
         .then((data) => res.json(data))
         .catch(next);
 }

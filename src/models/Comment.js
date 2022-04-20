@@ -20,6 +20,21 @@ schema.methods = {
     
         return obj;
     },
+    viewNested: function() {
+        var obj = this.toObject();
+    
+        obj.id = obj._id;
+
+        obj.reactions = obj.reactions.map(r => {
+            r.id = r._id;
+            delete r._id, r.__v;
+            return r;
+        });
+
+        delete obj._id, obj.__v;
+    
+        return obj;
+    },
 }
 
 module.exports = model('Comment', schema);
